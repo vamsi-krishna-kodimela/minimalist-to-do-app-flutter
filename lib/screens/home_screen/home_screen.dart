@@ -1,3 +1,6 @@
+import 'package:do_it/screens/home_screen/components/streak_info.dart';
+import 'package:do_it/screens/home_screen/components/to_do_list.dart';
+
 import '../../config/constants/theme.dart';
 import './components/action_buttons.dart';
 import 'package:flutter/material.dart';
@@ -7,32 +10,23 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int streak = 20;
-    int pendingTasks = 4;
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: kPrimaryColor,
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 24.0,
             vertical: 16.0,
+            horizontal: 0,
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '$streak Day Streak',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  Text(
-                    'TASKS FOR TODAY - $pendingTasks',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
+              StreakInfo(),
+              SizedBox(
+                height: 64.0,
               ),
+              ToDoList(),
             ],
           ),
         ),
