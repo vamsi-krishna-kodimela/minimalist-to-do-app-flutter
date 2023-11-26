@@ -1,5 +1,6 @@
 import 'package:do_it/shared/services/sqflite_service.dart';
 import 'package:flutter/material.dart';
+import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../models/task_model.dart';
@@ -20,15 +21,26 @@ class Tasks with ChangeNotifier {
   }
 
   Future<void> saveTask(Task task) async {
-    final isNew = !tasks.any((element) => element.id == task.id);
-    tasks.removeWhere((Task elem) => elem.id == task.id);
-    if (isNew) {
-      task = await SQFLiteService.insert(db, task);
-    } else {
-      await SQFLiteService.update(db, task);
+    final canVibrate = await Haptics.canVibrate();
+    try {
+      final isNew = !tasks.any((element) => element.id == task.id);
+      tasks.removeWhere((Task elem) => elem.id == task.id);
+      if (isNew) {
+        task = await SQFLiteService.insert(db, task);
+      } else {
+        await SQFLiteService.update(db, task);
+      }
+
+      if (canVibrate) {
+        await Haptics.vibrate(HapticsType.success);
+      }
+      tasks.add(task);
+      notifyListeners();
+    } catch (_) {
+      if (canVibrate) {
+        await Haptics.vibrate(HapticsType.error);
+      }
     }
-    tasks.add(task);
-    notifyListeners();
   }
 
   List<Task> getTasksByDate(DateTime date) {
@@ -47,7 +59,7 @@ class Tasks with ChangeNotifier {
     return getTasksByDate(date).length;
   }
 
-  Future<void> toggleStatus(Task task) async{
+  Future<void> toggleStatus(Task task) async {
     task.isCompleted = !task.isCompleted;
     await saveTask(task);
   }

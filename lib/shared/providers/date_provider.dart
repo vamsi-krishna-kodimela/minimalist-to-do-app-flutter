@@ -14,7 +14,7 @@ class DateProvider with ChangeNotifier {
   }
 
   appendNextDate() {
-    days.add(days.last.add(Duration(days: 1)));
+    days.add(days.last.add(const Duration(days: 1)));
   }
 
   updateCurrentDate(int index) {

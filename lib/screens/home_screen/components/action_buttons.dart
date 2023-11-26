@@ -1,5 +1,6 @@
 import 'package:do_it/screens/add_task_screen/add_task_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:haptic_feedback/haptic_feedback.dart';
 
 import '../../../config/constants/theme.dart';
 
@@ -17,7 +18,11 @@ class ActionButtons extends StatelessWidget {
         children: [
           IconButton.filledTonal(
             key: _addButtonKey,
-            onPressed: () {
+            onPressed: () async {
+              final canVibrate = await Haptics.canVibrate();
+              if (canVibrate) {
+                await Haptics.vibrate(HapticsType.light);
+              }
               final RenderBox fabRenderBox =
                   _addButtonKey.currentContext?.findRenderObject() as RenderBox;
               final fabSize = fabRenderBox.size;
@@ -25,7 +30,7 @@ class ActionButtons extends StatelessWidget {
               Navigator.of(context).push(
                 PageRouteBuilder(
                   pageBuilder: (ctx, animation, secondaryAnimation) =>
-                      AddTaskScreen(),
+                      const AddTaskScreen(),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     if (animation.value == 1.0) return child;
