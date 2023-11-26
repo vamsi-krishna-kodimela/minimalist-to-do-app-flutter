@@ -16,7 +16,7 @@ class ToDoList extends StatelessWidget {
     return Expanded(
       child: PageView.builder(
         scrollDirection: Axis.horizontal,
-        controller: PageController(viewportFraction: 0.8),
+        controller: PageController(viewportFraction: 0.8,initialPage: dateProvider.currentPageIndex),
         pageSnapping: true,
         itemBuilder: (_, index) => DayList(
           dateTime: dateProvider.days[index],

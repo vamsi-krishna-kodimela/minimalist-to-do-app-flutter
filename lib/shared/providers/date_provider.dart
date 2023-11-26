@@ -25,6 +25,10 @@ class DateProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  get currentPageIndex {
+    return days.indexWhere((element) => element.isAtSameMomentAs(currentDate));
+  }
+
   isCurrentDate(DateTime date) {
     return currentDate.isAtSameMomentAs(date);
   }

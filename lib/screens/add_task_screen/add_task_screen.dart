@@ -1,6 +1,11 @@
 import 'package:do_it/config/constants/theme.dart';
 import 'package:do_it/shared/components/streak_info.dart';
+import 'package:do_it/shared/providers/date_provider.dart';
+import 'package:do_it/shared/providers/task_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../shared/models/task_model.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
@@ -10,14 +15,14 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-  dynamic task = {
-    "title": "",
-    "date": DateTime.now(),
-    "isDone": false,
-  };
+  Task task = Task(
+    title: "",
+    scheduledOn: DateTime.now().toString(),
+  );
 
   @override
   Widget build(BuildContext context) {
+    DateProvider dateProvider = Provider.of<DateProvider>(context);
     Size size = MediaQuery.of(context).size;
     int maxCharacterLimit = 200;
 
@@ -32,15 +37,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             height: 80.0,
             child: PageView.builder(
               itemBuilder: (_, idx) => Text(
-                "Today",
+                dateProvider.getDaysForDisplay(dateProvider.days[idx]),
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
-              itemCount: 10,
+              itemCount: dateProvider.days.length,
               pageSnapping: true,
               scrollDirection: Axis.horizontal,
               controller: PageController(
                 viewportFraction: 0.8,
+                initialPage: dateProvider.currentPageIndex,
               ),
+              onPageChanged: (index) => dateProvider.updateCurrentDate(index),
             ),
           ),
           Padding(
@@ -59,7 +66,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: kSecondaryColor.withAlpha(24),
                         ),
-                    counterText: "${task["title"].length}/$maxCharacterLimit",
+                    counterText: "${task.title.length}/$maxCharacterLimit",
                     counterStyle: Theme.of(context).textTheme.bodySmall,
                   ),
                   autofocus: true,
@@ -69,10 +76,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   scribbleEnabled: true,
                   maxLength: maxCharacterLimit,
                   onChanged: (val) {
-                    task["title"] = val;
+                    task.title = val;
                     setState(() {});
                   },
                   onSubmitted: (_) {
+                    task.scheduledOn = dateProvider.currentDate;
+                    Provider.of<Tasks>(context, listen: false).saveTask(task);
                     Navigator.of(context).pop();
                   },
                 ),
