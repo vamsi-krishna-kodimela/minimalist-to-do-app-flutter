@@ -62,6 +62,11 @@ class Root extends StatelessWidget {
                   fontSize: 9.6,
                 ),
           ),
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: kAccentColor,
+            selectionHandleColor: kAccentColor,
+            selectionColor: kAccentColor.withOpacity(0.4),
+          ),
         ),
         home: const HomeScreen(),
       ),

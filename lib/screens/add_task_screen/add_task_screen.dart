@@ -8,17 +8,27 @@ import 'package:provider/provider.dart';
 import '../../shared/models/task_model.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
+  const AddTaskScreen({super.key, this.task});
+
+  final Task? task;
 
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-  Task task = Task(
-    title: "",
-    scheduledOn: DateTime.now().toString(),
-  );
+  late Task task;
+
+  @override
+  void initState() {
+    super.initState();
+    task = Task(
+      title: widget.task?.title ?? "",
+      scheduledOn: (widget.task?.scheduledOn ?? DateTime.now()).toString(),
+      isCompleted: widget.task?.isCompleted ?? false,
+      id: widget.task?.id,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +64,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
             child: Column(
               children: [
-                TextField(
+                TextFormField(
                   style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -79,11 +89,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     task.title = val;
                     setState(() {});
                   },
-                  onSubmitted: (_) {
+                  onEditingComplete: () {
                     task.scheduledOn = dateProvider.currentDate;
-                    Provider.of<Tasks>(context, listen: false).saveTask(task);
-                    Navigator.of(context).pop();
+                    Provider.of<Tasks>(context, listen: false)
+                        .saveTask(task)
+                        .then((_) {
+                      Navigator.of(context).pop();
+                    });
                   },
+                  initialValue: task.title,
                 ),
               ],
             ),

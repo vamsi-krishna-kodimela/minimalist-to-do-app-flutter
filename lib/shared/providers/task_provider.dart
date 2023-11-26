@@ -1,37 +1,32 @@
+import 'package:do_it/shared/services/sqflite_service.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../models/task_model.dart';
 
 class Tasks with ChangeNotifier {
-  List<Task> tasks = [
-    Task(
-      scheduledOn: DateTime.now().toString(),
-      title: "Task 1",
-    ),
-    Task(
-      scheduledOn: DateTime.now().add(Duration(days: 1)).toString(),
-      title: "Task 20",
-    ),
-    Task(
-      scheduledOn: DateTime.now().add(Duration(days: 1)).toString(),
-      title: "Task 21",
-    ),
-    Task(
-      scheduledOn: DateTime.now().add(Duration(days: 2)).toString(),
-      title: "Task 3",
-    ),
-    Task(
-      scheduledOn: DateTime.now().add(Duration(days: 3)).toString(),
-      title: "Task 3",
-    ),
-    Task(
-      scheduledOn: DateTime.now().add(Duration(days: 3)).toString(),
-      title: "Task 4",
-    ),
-  ];
+  List<Task> tasks = [];
+  late Database db;
 
-  saveTask(Task task) {
+  Tasks() {
+    SQFLiteService.initialize().then((db) {
+      this.db = db;
+      SQFLiteService.getAllTasks(db).then((value) {
+        print(value);
+        tasks = [...value];
+        notifyListeners();
+      });
+    });
+  }
+
+  Future<void> saveTask(Task task) async {
+    final isNew = !tasks.any((element) => element.id == task.id);
     tasks.removeWhere((Task elem) => elem.id == task.id);
+    if (isNew) {
+      task = await SQFLiteService.insert(db, task);
+    } else {
+      await SQFLiteService.update(db, task);
+    }
     tasks.add(task);
     notifyListeners();
   }
@@ -52,8 +47,8 @@ class Tasks with ChangeNotifier {
     return getTasksByDate(date).length;
   }
 
-  toggleStatus(Task task) {
+  Future<void> toggleStatus(Task task) async{
     task.isCompleted = !task.isCompleted;
-    saveTask(task);
+    await saveTask(task);
   }
 }

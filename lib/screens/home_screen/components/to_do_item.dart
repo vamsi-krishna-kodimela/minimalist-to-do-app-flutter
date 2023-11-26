@@ -1,4 +1,5 @@
 import 'package:animated_line_through/animated_line_through.dart';
+import 'package:do_it/screens/add_task_screen/add_task_screen.dart';
 import 'package:do_it/shared/models/task_model.dart';
 import 'package:do_it/shared/providers/task_provider.dart';
 import 'package:flutter/material.dart';
@@ -63,13 +64,23 @@ class _ToDoItemState extends State<ToDoItem>
           }
         },
         onTap: () {
-          Provider.of<Tasks>(context, listen: false).toggleStatus(widget.task);
+          Provider.of<Tasks>(context, listen: false)
+              .toggleStatus(widget.task)
+              .then((_) => {});
         },
         onLongPress: () {
-          // ToDo: Show Edit Options
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => AddTaskScreen(task: widget.task),
+            ),
+          );
         },
         onDoubleTap: () {
-          // ToDo: Show Edit Options
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => AddTaskScreen(task: widget.task),
+            ),
+          );
         },
         child: ListTile(
           title: AnimatedLineThrough(

@@ -1,11 +1,9 @@
-import 'package:uuid/uuid.dart';
-
 class Task {
-  String _id;
+  int _id;
 
-  String get id => _id;
+  int get id => _id;
 
-  set id(String value) {
+  set id(int value) {
     _id = value;
   }
 
@@ -28,11 +26,19 @@ class Task {
   bool isCompleted;
 
   Task({
-    String? id,
+    int? id,
     required String title,
     required String scheduledOn,
     this.isCompleted = false,
-  })  : _id = id ?? const Uuid().v1(),
+  })  : _id = id ?? DateTime.now().microsecondsSinceEpoch,
         _title = title,
         _scheduledOn = DateTime.parse(scheduledOn);
+
+  toMap() {
+    return {
+      "title": title,
+      "scheduledOn": scheduledOn.toString(),
+      "isCompleted": isCompleted ? 1 : 0
+    };
+  }
 }

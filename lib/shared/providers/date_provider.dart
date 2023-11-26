@@ -14,7 +14,7 @@ class DateProvider with ChangeNotifier {
   }
 
   appendNextDate() {
-    days.add(DateTime.now().add(Duration(days: days.length)));
+    days.add(days.last.add(Duration(days: 1)));
   }
 
   updateCurrentDate(int index) {
@@ -34,14 +34,14 @@ class DateProvider with ChangeNotifier {
   }
 
   String getDaysForDisplay(DateTime date) {
-    final dateDiff = date.day - days[0].day;
-    switch (dateDiff) {
+    final dateDiff = date.difference(days[0]);
+    switch (dateDiff.inDays) {
       case 0:
         return "Today";
       case 1:
         return "Tomorrow";
       default:
-        final formatter = DateFormat("dd MMM");
+        final formatter = DateFormat("dd MMM yy");
         return formatter.format(date);
     }
   }
