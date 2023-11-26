@@ -1,12 +1,18 @@
 import 'package:animated_line_through/animated_line_through.dart';
+import 'package:do_it/shared/models/task_model.dart';
+import 'package:do_it/shared/providers/task_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../config/constants/theme.dart';
 
 class ToDoItem extends StatefulWidget {
   const ToDoItem({
     super.key,
+    required this.task,
   });
+
+  final Task task;
 
   @override
   State<ToDoItem> createState() => _ToDoItemState();
@@ -14,7 +20,6 @@ class ToDoItem extends StatefulWidget {
 
 class _ToDoItemState extends State<ToDoItem>
     with SingleTickerProviderStateMixin {
-  bool isDone = false;
   late AnimationController _controller;
   late Animation<double> _touchAnimation;
 
@@ -58,7 +63,7 @@ class _ToDoItemState extends State<ToDoItem>
           }
         },
         onTap: () {
-          isDone = !isDone;
+          Provider.of<Tasks>(context, listen: false).toggleStatus(widget.task);
         },
         onLongPress: () {
           // ToDo: Show Edit Options
@@ -68,12 +73,12 @@ class _ToDoItemState extends State<ToDoItem>
         },
         child: ListTile(
           title: AnimatedLineThrough(
-            isCrossed: isDone,
+            isCrossed: widget.task.isCompleted,
             color: kAccentColor,
             duration: const Duration(milliseconds: 400),
             strokeWidth: 2.0,
             child: Text(
-              "Todo item goes here....Todo item goes here....Todo item goes here....",
+              widget.task.title,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),

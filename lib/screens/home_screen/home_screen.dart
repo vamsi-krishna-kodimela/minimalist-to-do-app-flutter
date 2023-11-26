@@ -1,4 +1,4 @@
-import 'package:do_it/screens/home_screen/components/streak_info.dart';
+import 'package:do_it/shared/components/streak_info.dart';
 import 'package:do_it/screens/home_screen/components/to_do_list.dart';
 
 import '../../config/constants/theme.dart';

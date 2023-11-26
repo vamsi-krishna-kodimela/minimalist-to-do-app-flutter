@@ -1,5 +1,5 @@
 import 'package:do_it/config/constants/theme.dart';
-import 'package:do_it/screens/home_screen/components/streak_info.dart';
+import 'package:do_it/shared/components/streak_info.dart';
 import 'package:flutter/material.dart';
 
 class AddTaskScreen extends StatefulWidget {
