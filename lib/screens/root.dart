@@ -49,6 +49,7 @@ class Root extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 9.6,
               ),
+
         ),
       ),
       home: const HomeScreen(),

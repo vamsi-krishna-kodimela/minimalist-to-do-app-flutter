@@ -66,8 +66,8 @@ class ActionButtons extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          height: size!.height,
-                          width: size!.width,
+                          height: size.height,
+                          width: size.width,
                           left: offset.dx,
                           top: offset.dy,
                           child: ClipRRect(
