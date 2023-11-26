@@ -13,22 +13,13 @@ class HomeScreen extends StatelessWidget {
     return const Scaffold(
       backgroundColor: kPrimaryColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 16.0,
-            horizontal: 0,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              StreakInfo(),
-              SizedBox(
-                height: 64.0,
-              ),
-              ToDoList(),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            StreakInfo(),
+            ToDoList(),
+          ],
         ),
       ),
       floatingActionButton: ActionButtons(),
