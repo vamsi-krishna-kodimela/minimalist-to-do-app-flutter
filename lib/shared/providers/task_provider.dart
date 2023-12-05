@@ -13,7 +13,6 @@ class Tasks with ChangeNotifier {
     SQFLiteService.initialize().then((db) {
       this.db = db;
       SQFLiteService.getAllTasks(db).then((value) {
-        print(value);
         tasks = [...value];
         notifyListeners();
       });
@@ -21,6 +20,10 @@ class Tasks with ChangeNotifier {
   }
 
   Future<void> saveTask(Task task) async {
+    print(task.title.length);
+    if(task.title.isEmpty){
+      return;
+    }
     final canVibrate = await Haptics.canVibrate();
     try {
       final isNew = !tasks.any((element) => element.id == task.id);
