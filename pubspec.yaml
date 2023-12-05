@@ -23,6 +23,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^3.0.1
   flutter_launcher_icons: "^0.13.1"
+  flutter_native_splash: ^2.3.6
 
 flutter:
   uses-material-design: true
@@ -43,3 +44,20 @@ flutter_launcher_icons:
   macos:
     generate: true
     image_path: "assets/images/do-it-logo.png"
+
+
+# flutter_native_splash-development.yaml
+flutter_native_splash:
+  color: "#F0002F"
+  image: assets/images/do-it-logo.png
+  branding: assets/images/do-it-logo.png
+  color_dark: "#F0002F"
+  image_dark: assets/images/do-it-logo.png
+
+  android_12:
+    image: assets/images/do-it-logo.png
+    icon_background_color: "#F0002F"
+    image_dark: assets/images/do-it-logo.png
+    icon_background_color_dark: "#F0002F"
+
+  web: false
