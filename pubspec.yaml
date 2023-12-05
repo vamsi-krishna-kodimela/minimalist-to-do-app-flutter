@@ -48,16 +48,16 @@ flutter_launcher_icons:
 
 # flutter_native_splash-development.yaml
 flutter_native_splash:
-  color: "#F0002F"
+  color: "#FF5757"
   image: assets/images/do-it-logo.png
   branding: assets/images/do-it-logo.png
-  color_dark: "#F0002F"
+  color_dark: "#FF5757"
   image_dark: assets/images/do-it-logo.png
 
   android_12:
     image: assets/images/do-it-logo.png
-    icon_background_color: "#F0002F"
+    icon_background_color: "#FF5757"
     image_dark: assets/images/do-it-logo.png
-    icon_background_color_dark: "#F0002F"
+    icon_background_color_dark: "#FF5757"
 
   web: false
